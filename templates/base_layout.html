@@ -1,0 +1,17 @@
+{% load static %}
+
+<html>
+    <head>
+        <link rel="stylesheet" href="{% static "styles.css" %}">
+    </head>
+    <body>
+        <div class="nav">
+            <form action="{% url 'accounts:logout' %}" method="post">
+                {% csrf_token %}
+                <input type="submit" value="logout" />
+            </form>
+        </div>
+        {% block content %}
+        {% endblock %}
+    </body>
+</html>
