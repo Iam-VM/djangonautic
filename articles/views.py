@@ -3,10 +3,9 @@ from .models import Articles
 from django.contrib.auth.decorators import login_required
 from .forms import CreateArticle
 
-articles = Articles.objects.all().order_by('date')
-
 
 def article_list(req):
+    articles = Articles.objects.all().order_by('date')
     return render(req, 'articles/articlesList.html', {'articles': articles})
 
 
