@@ -6,10 +6,16 @@
     </head>
     <body>
         <div class="nav">
+            {% if request.user.is_authenticated %}
             <form action="{% url 'accounts:logout' %}" method="post">
                 {% csrf_token %}
                 <input type="submit" value="logout" />
             </form>
+                <a href="{% url 'articles:create' %}">New Article</a>
+            {% else %}
+                <a href="{% url 'accounts:login' %}">login</a>
+                <a href="{% url 'accounts:signup' %}">signup</a>
+            {% endif %}
         </div>
         {% block content %}
         {% endblock %}

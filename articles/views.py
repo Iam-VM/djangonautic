@@ -1,6 +1,7 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .models import Articles
 from django.contrib.auth.decorators import login_required
+from .forms import CreateArticle
 
 articles = Articles.objects.all().order_by('date')
 
@@ -17,4 +18,12 @@ def article_details(req, slug):
 
 @login_required(login_url='/accounts/login')
 def article_create(req):
-    return render(req, 'articles/article_create.html')
+    if req.method == 'POST':
+        form = CreateArticle(req.POST, req.FILES)
+        instance = form.save(commit=False)
+        instance.author = req.user
+        instance.save()
+        return redirect('articles:list')
+    else:
+        form = CreateArticle()
+    return render(req, 'articles/article_create.html', {'form': form})
